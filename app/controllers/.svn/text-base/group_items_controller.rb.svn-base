@@ -1,4 +1,0 @@
-class GroupItemsController < ApplicationController
-
-  
-end

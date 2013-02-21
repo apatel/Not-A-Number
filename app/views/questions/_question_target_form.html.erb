@@ -9,16 +9,11 @@
 
 <%= label_tag :behavior, "Behavior", :class => "bold_text" %><br />
 <%= select_tag("behavior",
-  "<option>Sequential</option>
-   <option>Sequential Distinct</option>
-   <option>Round Robin</option>
-   <option>Random</option>
-   <option>Random Distinct</option>
-   <option>Queued</option>", :selected => @meta_hash[:behavior] )%><br />
+  options_for_select(['Sequential','Sequential Distinct','Round Robin','Random','Random Distinct','Queued'], @meta_hash['behavior']) )%><br />
 
 
 <%= label_tag :target_list, "Target List", :class => "bold_text" %><br />
-<%= select_tag "target_list_id", options_for_select(TargetList.find(:all).collect{|target_list| [target_list.output_text, target_list.id]}, :selected => @meta_hash[:target_list_id]) %><br />
+<%= select_tag "target_list_id", options_for_select(TargetList.find(:all).collect{|target_list| [target_list.output_text, target_list.id]}, @meta_hash['target_list_id'].to_i) %><br />
 
 
 <%= hidden_field_tag :type, "QuestionTarget" %>

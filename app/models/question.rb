@@ -26,6 +26,17 @@ class Question < ActiveRecord::Base
   has_many :choices, :through => :question_items, :order => "question_items.position"
   has_many :branches
 
+  @meta_hash_cache = nil
+  attr_accessor :meta_hash_cache
+
+  def meta_hash
+    if @meta_hash_cache.blank?
+      logger.warn('instantiating question cache')
+      @meta_hash_cache = ActiveSupport::JSON.decode(self.meta)
+    end
+    @meta_hash_cache
+  end
+
   def current_user
     session = UserSession.find
     current_user = session && session.user
@@ -371,13 +382,15 @@ class QuestionTarget < Question
   end
 
   def behavior
-    meta_hash = ActiveSupport::JSON.decode(self.meta)
+    #meta_hash = ActiveSupport::JSON.decode(self.meta)
+    meta_hash = self.meta_hash
 
     return meta_hash["behavior"]
   end
 
   def target_list_id
-    meta_hash = ActiveSupport::JSON.decode(self.meta)
+#    meta_hash = ActiveSupport::JSON.decode(self.meta)
+    meta_hash = self.meta_hash
 
     return meta_hash["target_list_id"].to_i
   end

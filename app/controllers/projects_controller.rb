@@ -23,12 +23,14 @@ class ProjectsController < ApplicationController
     @userrole = []
       
     @projects.each do |project|
-      if current_user.has_role? "admin", project or current_user.has_role? "manager", project or current_user.has_role? "editor", project or current_user.has_role? "owner", project
+      if current_user.is?("admin", project) or current_user.is?("manager", project) or current_user.is?("editor", project) or current_user.is?("owner", project)
         @adminrole << project
-      elsif current_user.has_role? "user", project
+      elsif current_user.is?("user", project)
         @userrole << project
       end  
     end
+    p "admin"
+    p @adminrole
     
     alltargetlists = Role.find_by_sql(["select id, authorizable_id from roles join roles_users on roles.id = roles_users.role_id where roles.authorizable_type = 'TargetList' and roles_users.user_id = ?", current_user])
     targetlistids = alltargetlists.collect{|t| t.authorizable_id}

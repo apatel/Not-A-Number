@@ -13,7 +13,7 @@ class TargetListsController < ApplicationController
   # GET /target_lists/1
   # GET /target_lists/1.xml
   def show
-    @target_list = TargetList.find(params[:id])
+    @target_list = TargetList.find(params[:id], :include => [:targets])
     @target_list_items = @target_list.target_list_items
     
     #@available_target_items = Target.available_items(@target_list)

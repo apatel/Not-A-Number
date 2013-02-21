@@ -1,9 +1,9 @@
 <%
-adminrole = current_user.has_role? "admin", project
-managerrole = current_user.has_role? "manager", project
-editorrole = current_user.has_role? "editor", project
-ownerrole = current_user.has_role? "owner", project
-userrole = current_user.has_role? "user", project 
+adminrole = current_user.is? "admin", project
+managerrole = current_user.is? "manager", project
+editorrole = current_user.is? "editor", project
+ownerrole = current_user.is? "owner", project
+userrole = current_user.is? "user", project 
 %>
   
   <tr>

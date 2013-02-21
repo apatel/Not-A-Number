@@ -18,7 +18,7 @@ development:
   adapter: mysql
   encoding: utf8
   reconnect: false
-  database: not_a_number
+  database: not_a_number_development
   pool: 5
   username: root
   password: 
@@ -46,4 +46,3 @@ production:
   username: root
   password: 
   host: localhost
-

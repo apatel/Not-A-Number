@@ -23,4 +23,9 @@ class User < ActiveRecord::Base
   acts_as_authorization_subject
 
   has_and_belongs_to_many :roles
+
+  def is?(role_name, obj)
+    self.roles.reject{|r| (r.authorizable_type == obj.class.name && r.authorizable_id == obj.id && r.name == role_name.to_s) ? false : true }.length >= 1
+  end
+
 end

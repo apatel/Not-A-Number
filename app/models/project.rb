@@ -20,6 +20,8 @@ class Project < ActiveRecord::Base
   has_many :user_locks
   has_many :codes
   has_one :project_style
+  @meta_hash_cache = nil
+  attr_accessor :meta_hash_cache
 
   def current_user
     session = UserSession.find
@@ -131,11 +133,11 @@ class Project < ActiveRecord::Base
 
   def completed_count(session_id)
     if current_user.nil?
-     return Code.count(:conditions => {:project_id => self.id, :session_id => session_id, :completed => true})
+      codes.find(:all, :conditions => {:project_id => self.id, :session_id => session_id, :completed => true}).length
     elsif !session_id.blank?
-     return Code.count(:conditions => {:project_id => self.id, :user_id => current_user.id, :completed => true})
+      codes.find(:all, :conditions => {:project_id => self.id, :user_id => current_user.id, :completed => true}).length
     else
-     return 0
+     0
     end
   end
 
@@ -150,6 +152,7 @@ class Project < ActiveRecord::Base
   end
 
   def remaining_targets(session_id)
+    # FIXME - incredibly inefficient.
 
     total_targets = 0
 
@@ -182,7 +185,10 @@ class Project < ActiveRecord::Base
   end
 
   def meta_hash
-    return ActiveSupport::JSON.decode(self.meta)
+    if @meta_hash_cache.blank?
+      @meta_hash_cache = ActiveSupport::JSON.decode(self.meta)
+    end
+    @meta_hash_cache
   end
 
   def self.connection_model

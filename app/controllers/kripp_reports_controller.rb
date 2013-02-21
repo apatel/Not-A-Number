@@ -20,10 +20,8 @@ class KrippReportsController < ApplicationController
     #@r.kripp_alpha( parameters )
     
     @r.matrix.autoconvert(RSRuby::NO_CONVERSION)
-    @a = [1,1,2,1,1,1,3,2,3,3,3,3,3,1,3,3,2,2,2,2,1,2,3,4,4,4,4,4,1,1,2,1,2,2,2,2,1,5,5,5,2,5,1,1,3,2,3,3]
-    @m = @r.matrix(@a,:nrow=>4,:ncol=>4) 
-    #p @r.kripp_alpha(@m)
-    @data = @r.kripp_alpha(@m)
+    @m = @r.matrix([2,2,3,4],:nrow=>2,:ncol=>2) 
+    p @r.kripp_alpha(@m)
     @kripp = @r.kripp_alpha(@m)['statistic']
   end
 
